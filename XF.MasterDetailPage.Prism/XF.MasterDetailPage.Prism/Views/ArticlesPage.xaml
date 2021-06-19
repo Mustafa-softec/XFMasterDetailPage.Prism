@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XF.MasterDetailPage.Prism.Views.ArticlesPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:XF.MasterDetailPage.Prism.Behaviors"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    Title="{Binding Title}"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    BackgroundColor="LightGray">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Icon="search"
+            Order="Primary"
+            Priority="0"
+            Text="search" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ListView
+            x:Name="ArticlesListView"
+            HasUnevenRows="True"
+            ItemsSource="{Binding Articles}"
+            SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout
+                            x:Name="ArticleCell"
+                            Margin="20"
+                            BackgroundColor="White">
+                            <Image
+                                Aspect="AspectFill"
+                                HeightRequest="150"
+                                Source="{Binding BackImage}" />
+                            <Label
+                                Margin="10,0,10,0"
+                                FontSize="Medium"
+                                Text="{Binding Title}"
+                                TextColor="Black" />
+                            <Label
+                                Margin="10,0,10,0"
+                                FontSize="Small"
+                                Text="{Binding CreatedBy}"
+                                TextColor="LightGray" />
+                            <Label
+                                Margin="10,0,10,5"
+                                FontSize="Micro"
+                                HorizontalOptions="End"
+                                Text="{Binding FormatedDate}"
+                                TextColor="Gray" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    BindingContext="{Binding Source={x:Reference ArticlesListView}, Path=BindingContext}"
+                                    Command="{Binding OpenArticleDetailsCommand}"
+                                    CommandParameter="{Binding Source={x:Reference ArticleCell}, Path=BindingContext}" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Behaviors>
+                <behaviors:DisableListItemSelectionBehavior />
+            </ListView.Behaviors>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>
